@@ -1,11 +1,18 @@
 import org.junit.Test;
+import page.LoginPage;
+import page.MainPage;
+import page.ProfilePage;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LoginTest {
     @Test
-    public void notphone(){
-        mainPage = App().start();
-        loginPage = mainpage.gotoLoginPage();
-        toast = loginPage.login("13233333333", "12345");
-        assertThat(toast,equalsto("手机号填写错误"));
+    public void notPhone(){
+        MainPage mainPage = MainPage.start();
+        ProfilePage profilePage = mainPage.goToProfilePage();
+        LoginPage loginPage = profilePage.gotoLoginPage();
+        loginPage.passwordLoginFail("14700001111", "123456");
+        assertThat(loginPage.getMsg(), equalTo("用户名或密码错误"));
     }
 }
