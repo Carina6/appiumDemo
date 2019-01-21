@@ -8,9 +8,9 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class Driver {
-    static AndroidDriver driver;
+    private static AndroidDriver driver;
 
-    public Driver() throws MalformedURLException {
+    public static void start() throws MalformedURLException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("platformName", "Android");
         desiredCapabilities.setCapability("deviceName", "nexus");
@@ -21,8 +21,10 @@ public class Driver {
         URL remoteUrl = new URL("http://127.0.0.1:4723/wd/hub");
 
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(6,TimeUnit.SECONDS);
     }
 
-
+    public static AndroidDriver getDriver() {
+        return driver;
+    }
 }
