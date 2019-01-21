@@ -9,12 +9,14 @@ import java.util.List;
 
 public class MainPage extends BasePage{
     // 表示页面中的控件
-    private By profile = By.id("user_profile_icon");
+    // 个人中心
+    private By profile = locate("user_profile_icon");
 
     // 更新页弹窗
-    private By update = By.id("update_id_ok");
-    private By imageCancel = By.id("image_cancel");
+    private By update = locate("update_id_ok");
+    private By imageCancel = locate("image_cancel");
 
+    private By homeSearch = locate("home_search");
     public static MainPage start(){
         try {
             Driver.start();
@@ -24,12 +26,13 @@ public class MainPage extends BasePage{
         return new MainPage();
     }
 
-    public ProfilePage goToProfilePage(){
-        Driver.getDriver().findElement(profile).click();
+    public ProfilePage gotoProfilePage(){
+        findElement(profile).click();
         return new ProfilePage();
     }
 
-    public SearchPage search(String name){
+    public SearchPage gotoSearchPage(){
+        findElement(homeSearch);
         return new SearchPage();
     }
 

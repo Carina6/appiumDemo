@@ -4,9 +4,16 @@ import driver.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class BasePage {
     WebElement findElement(By locator){
+
         return Driver.getDriver().findElement(locator);
+    }
+
+    List<WebElement> findElements(By locator){
+        return Driver.getDriver().findElements(locator);
     }
 
     By locate(String locator){
