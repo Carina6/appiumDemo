@@ -2,13 +2,13 @@ package page;
 
 import driver.Driver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public class BasePage {
-    WebElement findElement(By locator){
-
+    WebElement findElement(By locator) throws NoSuchElementException{
         return Driver.getDriver().findElement(locator);
     }
 

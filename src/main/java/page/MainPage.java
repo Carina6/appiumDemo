@@ -2,6 +2,7 @@ package page;
 
 import driver.Driver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public class MainPage extends BasePage{
     private By imageCancel = locate("image_cancel");
 
     private By homeSearch = locate("home_search");
+
+    private By mainPageBtn = text("雪球");
+    private By optionBtn = text("自选");
+
     public static MainPage start(){
         try {
             Driver.start();
@@ -27,13 +32,29 @@ public class MainPage extends BasePage{
     }
 
     public ProfilePage gotoProfilePage(){
-        findElement(profile).click();
+        try {
+            findElement(profile).click();
+        }catch (NoSuchElementException e){
+            findElement(imageCancel).click();
+            findElement(profile).click();
+        }
+
         return new ProfilePage();
     }
 
     public SearchPage gotoSearchPage(){
-        findElement(homeSearch);
+        findElement(homeSearch).click();
         return new SearchPage();
+    }
+
+    public MainPage gotoMainPage(){
+        findElement(mainPageBtn).click();
+        return this;
+    }
+
+    public SelectedPage gotoSelectedPage(){
+        findElement(optionBtn).click();
+        return new SelectedPage();
     }
 
     public void add(){

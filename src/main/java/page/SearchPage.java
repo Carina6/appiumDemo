@@ -1,6 +1,7 @@
 package page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -14,10 +15,8 @@ public class SearchPage extends BasePage{
     private By followedBtn = locate("followed_btn");
 
     private By buttonDefaultNegative = locate("md_buttonDefaultNegative");
-//    private By searchInputText = locate("search_input_text");
 
     private By stockName = locate("stockName");
-    private ArrayList<String> result = new ArrayList<String>();
 
     public SearchPage search(String context){
         findElement(searchInputText).sendKeys(context);
@@ -29,19 +28,26 @@ public class SearchPage extends BasePage{
         return new MainPage();
     }
 
-    public ArrayList<String> getResult() {
+    public ArrayList<String> getResults() {
+        ArrayList<String> results = new ArrayList<String>();
         for(WebElement we: findElements(stockName)){
-            result.add(we.getText());
+            results.add(we.getText());
         }
-        return result;
+        return results;
     }
 
-    public SearchPage addSelected(String name){
+    public SearchPage addSelected(){
         findElements(followBtn).get(0).click();
-        return this;
+        try {
+            findElement(buttonDefaultNegative).click();
+            return this;
+        }catch (NoSuchElementException e){
+            return this;
+        }
     }
-    public SearchPage cancelSelected(String name){
-        findElement(followedBtn).click();
+
+    public SearchPage cancelSelected(){
+        findElements(followedBtn).get(0).click();
         return this;
     }
 }

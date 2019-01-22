@@ -16,7 +16,7 @@ public class LoginPage extends BasePage{
 
     private String msg;
 
-    public void passwordLoginFail(String account, String password){
+    public LoginPage passwordLoginFail(String account, String password){
         findElement(phoneOtherLogin).click();
         findElement(loginWithAccount).click();
 
@@ -27,6 +27,7 @@ public class LoginPage extends BasePage{
 
         this.msg = findElement(message).getText();
         findElement(mdButtonDefaultPositive).click();
+        return this;
     }
 
     public MainPage passwordLoginSuccess(String account, String password){
