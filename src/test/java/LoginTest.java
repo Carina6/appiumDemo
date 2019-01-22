@@ -1,5 +1,3 @@
-//import org.junit.Test;
-//import org.junit.Test;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,25 +8,42 @@ import page.MainPage;
 import page.ProfilePage;
 
 
-public class LoginTest {
+class LoginTest {
     private static MainPage mainPage;
     private static ProfilePage profilePage;
 
     @BeforeAll
-    public void before(){
+    static void before(){
         mainPage = MainPage.start();
         profilePage = mainPage.gotoProfilePage();
     }
 
     @ParameterizedTest
     @CsvSource({
-            "14700001111, 123456, 用户名或密码错误",
-            "1234567, 1234, 手机号错误"
+            "14700001112, 123456, '用户名或密码错误'",
+            "123456789091, 123456, '手机号码填写错误'"
     })
-    void notPhone(String account, String pwd, String expect){
+    void passwordLoginFail(String account, String pwd, String expect){
         LoginPage loginPage = profilePage.gotoLoginPage();
 
         loginPage.passwordLoginFail(account, pwd);
         MatcherAssert.assertThat(loginPage.getMsg(), Matchers.equalTo(expect));
+
+        profilePage = loginPage.gotoProfilePage();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "18721120188, ********"
+    })
+    void passwordLoginSuccess(String account, String pwd){
+        LoginPage loginPage = profilePage.gotoLoginPage();
+
+        mainPage = loginPage.passwordLoginSuccess(account, pwd);
+
+        profilePage = mainPage.gotoProfilePage();
+        MatcherAssert.assertThat(profilePage.isLogin(), Matchers.is(true));
+        profilePage.gotoMainPage();
+
     }
 }
