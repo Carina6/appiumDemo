@@ -1,5 +1,4 @@
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -27,8 +26,7 @@ class LoginTest {
         LoginPage loginPage = profilePage.gotoLoginPage();
 
         loginPage.passwordLoginFail(account, pwd);
-        MatcherAssert.assertThat(loginPage.getMsg(), Matchers.equalTo(expect));
-
+        Assertions.assertEquals(expect, loginPage.getMsg());
         profilePage = loginPage.gotoProfilePage();
     }
 
@@ -42,7 +40,7 @@ class LoginTest {
         mainPage = loginPage.passwordLoginSuccess(account, pwd);
 
         profilePage = mainPage.gotoProfilePage();
-        MatcherAssert.assertThat(profilePage.isLogin(), Matchers.is(true));
+        Assertions.assertTrue(profilePage.isLogin());
         profilePage.gotoMainPage();
 
     }

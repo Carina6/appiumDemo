@@ -46,7 +46,7 @@ public class SearchPage extends BasePage{
         }
     }
 
-    public SearchPage cancelSelected(){
+    public SearchPage removeSelected(){
         findElements(followedBtn).get(0).click();
         return this;
     }

@@ -1,6 +1,9 @@
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import page.MainPage;
@@ -13,7 +16,16 @@ public class SearchTest {
     @BeforeAll
     static void init(){
         mainPage = MainPage.start();
+    }
+
+    @BeforeEach
+    void gotoSearchPage(){
         searchPage = mainPage.gotoSearchPage();
+    }
+
+    @AfterEach
+    void gotoMainPage(){
+        mainPage = mainPage.gotoMainPage();
     }
 
     @ParameterizedTest
@@ -23,7 +35,7 @@ public class SearchTest {
     })
     void search(String content, String name){
         String actual = searchPage.search(content).getResults().get(0);
-        MatcherAssert.assertThat(actual, Matchers.equalTo(name));
+        Assertions.assertEquals(name, actual);
     }
 
     @ParameterizedTest
@@ -32,11 +44,30 @@ public class SearchTest {
             "pdd, 拼多多"
     })
     void addSelected(String content, String name){
-        search(content, name);
+        String actual = searchPage.search(content).getResults().get(0);
+        Assertions.assertEquals(name, actual);
+
         searchPage.addSelected();
 
-        MatcherAssert.assertThat(searchPage.cancel().gotoSelectedPage().getAll(), Matchers.contains(name));
-        mainPage.gotoMainPage();
+        MatcherAssert.assertThat(searchPage.cancel().gotoSelectedPage().getAll(), Matchers.hasItem(name));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "xiaomi, 小米集团-W",
+            "pdd, 拼多多"
+    })
+    void removeSelected(String content, String name){
+        String actual = searchPage.search(content).getResults().get(0);
+        Assertions.assertEquals(name, actual);
+
+        searchPage.removeSelected();
+
+        if(searchPage.cancel().gotoSelectedPage().getAll().contains(name)){
+            Assertions.fail();
+        }else {
+            Assertions.assertTrue(true);
+        }
     }
 
 }
