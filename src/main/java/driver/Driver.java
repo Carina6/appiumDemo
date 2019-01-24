@@ -5,23 +5,23 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 public class Driver {
     private static AndroidDriver driver;
 
     public static void start() throws MalformedURLException {
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("platformName", "Android");
-        desiredCapabilities.setCapability("deviceName", "nexus");
-        desiredCapabilities.setCapability("appPackage", "com.xueqiu.android");
-        desiredCapabilities.setCapability("appActivity", ".view.WelcomeActivityAlias");
-        desiredCapabilities.setCapability("autoGrantPermissions", true);
+        GlobalConfig config = GlobalConfig.load("/data/globalConfig.yaml");
 
-        URL remoteUrl = new URL("http://127.0.0.1:4723/wd/hub");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        for (String key : config.appium.capability.keySet()) {
+            Object value = config.appium.capability.get(key);
+            desiredCapabilities.setCapability(key, value);
+        }
+
+        URL remoteUrl = new URL(config.appium.url);
 
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(config.appium.wait, TimeUnit.SECONDS);
     }
 
     public static AndroidDriver getDriver() {

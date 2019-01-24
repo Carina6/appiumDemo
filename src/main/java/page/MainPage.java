@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainPage extends BasePage{
-    // 表示页面中的控件
     // 个人中心
     private By profile = locate("user_profile_icon");
 
