@@ -21,6 +21,9 @@ public class MainPage extends BasePage{
 
     private By mainPageBtn = text("雪球");
     private By optionBtn = text("自选");
+//    private By optionBtn1 = By.xpath("//*[contains(@resource-id, 'tab_name') and @text='自选']");
+    private By optionBtn3 = locate("tab_name");
+
 
     public static MainPage start(){
         try {
@@ -53,7 +56,8 @@ public class MainPage extends BasePage{
     }
 
     public SelectedPage gotoSelectedPage(){
-        findElement(optionBtn).click();
+//        findElement(optionBtn1).click();
+        findElements(optionBtn3).get(1).click();
         return new SelectedPage();
     }
 
@@ -64,6 +68,5 @@ public class MainPage extends BasePage{
     public List<Object> getContentByFilter(String name){
         return new ArrayList<Object>();
     }
-
 
 }
