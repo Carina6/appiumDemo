@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import page.MainPage;
 import page.SearchPage;
 
-public class SearchTest {
+class SearchTest {
     private static MainPage mainPage;
     private static SearchPage searchPage;
 
@@ -39,10 +40,11 @@ public class SearchTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "xiaomi, 小米集团-W",
-            "pdd, 拼多多"
-    })
+//    @CsvSource({
+//            "xiaomi, 小米集团-W",
+//            "pdd, 拼多多"
+//    })
+    @CsvFileSource(resources = "/SearchTest.csv")
     void addSelected(String content, String name){
         String actual = searchPage.search(content).getResults().get(0);
         Assertions.assertEquals(name, actual);

@@ -5,7 +5,6 @@ import java.util.HashMap;
 class AppiumConfig {
     String url = "";
     HashMap<String, Object> capability = new HashMap<>();
-
     Integer wait = 6;
 
     public String getUrl() {

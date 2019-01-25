@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class Driver {
     private static AndroidDriver driver;
@@ -21,7 +22,7 @@ public class Driver {
         URL remoteUrl = new URL(config.appium.url);
 
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-//        driver.manage().timeouts().implicitlyWait(config.appium.wait, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(config.appium.wait, TimeUnit.SECONDS);
     }
 
     public static AndroidDriver getDriver() {
